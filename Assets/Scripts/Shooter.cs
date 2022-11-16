@@ -58,7 +58,7 @@ public class Shooter : MonoBehaviour
 
         while (true) {
 
-            GameObject instance = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+            GameObject instance = Instantiate(projectilePrefab, transform.position, transform.rotation);
 
             Rigidbody2D rb = instance.GetComponent<Rigidbody2D>();
 
