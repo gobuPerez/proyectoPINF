@@ -17,6 +17,8 @@ public class Player : MonoBehaviour
     [SerializeField] float paddingRight;
     [SerializeField] float paddingTop;
     [SerializeField] float paddingBottom;
+    Touch touch;
+    Vector3 touchP;
 
     Shooter shooter;
 
@@ -41,18 +43,13 @@ public class Player : MonoBehaviour
 
     // metodo propio
     void Movimiento() {
-        
-        Vector2 delta = rawInput * moveSpeed * Time.deltaTime; // con deltaTime conseguimos que el movimiento sea independiente de los fps
-
-        Vector2 nuevaPosicion = new Vector2();
-
-        // Nos aseguramos que el jugador no se mueva fuera de la pantalla
-        // Clamp asegura que el primer valor dado este en el intervalo formado por los dos siguientes
-        // Añadimos paddings para que medio jugador no se salga de la pantalla
-        nuevaPosicion.x = Mathf.Clamp(transform.position.x + delta.x, limiteInferior.x + paddingLeft, limiteSuperior.x - paddingRight);
-        nuevaPosicion.y = Mathf.Clamp(transform.position.y + delta.y, limiteInferior.y + paddingBottom, limiteSuperior.y - paddingTop);
-
-        transform.position = nuevaPosicion;
+        if (Input.touchCount > 0)
+        {
+            touch = Input.GetTouch(0);
+            touchP = Camera.main.ScreenToWorldPoint(touch.position);
+            touchP.z = 0;
+            transform.position+=(touchP - transform.position).normalized * moveSpeed * Time.deltaTime;
+        }
 
     }
 
