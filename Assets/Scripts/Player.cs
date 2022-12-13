@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     // limites de pantalla de los que no podra salirse el jugador
     Vector2 limiteInferior;
     Vector2 limiteSuperior;
+    Vector2 _direction = new Vector2(1,0);
     [SerializeField] float paddingLeft;
     [SerializeField] float paddingRight;
     [SerializeField] float paddingTop;
@@ -36,7 +37,21 @@ public class Player : MonoBehaviour
     {
 
         Movimiento();
+        Direction();
 
+    }
+
+    void Direction()
+    {
+        Vector2 tmp = rawInput;
+        if (tmp.x != 0) {
+            _direction = tmp;
+        }
+    }
+
+    public Vector2 getDirection()
+    {
+        return _direction;
     }
 
     // metodo propio
@@ -49,6 +64,7 @@ public class Player : MonoBehaviour
         // Nos aseguramos que el jugador no se mueva fuera de la pantalla
         // Clamp asegura que el primer valor dado este en el intervalo formado por los dos siguientes
         // Añadimos paddings para que medio jugador no se salga de la pantalla
+    
         nuevaPosicion.x = Mathf.Clamp(transform.position.x + delta.x, limiteInferior.x + paddingLeft, limiteSuperior.x - paddingRight);
         nuevaPosicion.y = Mathf.Clamp(transform.position.y + delta.y, limiteInferior.y + paddingBottom, limiteSuperior.y - paddingTop);
 
