@@ -9,10 +9,12 @@ public class Health : MonoBehaviour
     [SerializeField] int score = 50;
     
     ScoreKeeper scoreKeeper;
+    LevelManager levelManager;
 
     void Awake() {
 
         scoreKeeper = FindObjectOfType<ScoreKeeper>();
+        levelManager = FindObjectOfType<LevelManager>();
 
     }
 
@@ -52,6 +54,10 @@ public class Health : MonoBehaviour
         if (!isPlayer) {
 
             scoreKeeper.modifyScore(score);
+
+        } else {
+
+            levelManager.LoadGameOver();
 
         }
 
