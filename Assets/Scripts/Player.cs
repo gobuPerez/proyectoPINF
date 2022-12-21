@@ -17,9 +17,7 @@ public class Player : MonoBehaviour
     [SerializeField] float paddingRight;
     [SerializeField] float paddingTop;
     [SerializeField] float paddingBottom;
-    Touch touch;
-    Vector3 touchP;
-
+    [SerializeField] Joystick joystick;
     Shooter shooter;
 
     void Awake() {
@@ -43,14 +41,10 @@ public class Player : MonoBehaviour
 
     // metodo propio
     void Movimiento() {
-        if (Input.touchCount > 0)
-        {
-            touch = Input.GetTouch(0);
-            touchP = Camera.main.ScreenToWorldPoint(touch.position);
-            touchP.z = 0;
-            transform.position+=(touchP - transform.position).normalized * moveSpeed * Time.deltaTime;
-        }
 
+        Vector3 moveV = new Vector3 (joystick.Horizontal, joystick.Vertical, 0.0f);
+        transform.position+= moveV.normalized * moveSpeed * Time.deltaTime;
+        transform.Rotate(0.0f, 0.0f, Vector2.Angle(new Vector2 (0.0f, 1.0f), new Vector2 (moveV.x, moveV.y)), Space.Self);
     }
 
     // metodo propio

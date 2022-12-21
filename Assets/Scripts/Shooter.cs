@@ -41,7 +41,7 @@ public class Shooter : MonoBehaviour
     void Fire() {
         
         // al comenzar el juego, fireCroutime es nula
-        if (isFiring && fireCoroutine == null) {
+        if (true) {
     
             fireCoroutine = StartCoroutine(FireContinuously());
 
