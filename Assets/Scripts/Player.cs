@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     [SerializeField] float paddingBottom;
     [SerializeField] Joystick joystick;
     Shooter shooter;
+    float giro;
 
     void Awake() {
         
@@ -40,11 +41,18 @@ public class Player : MonoBehaviour
     }
 
     // metodo propio
-    void Movimiento() {
-
-        Vector3 moveV = new Vector3 (joystick.Horizontal, joystick.Vertical, 0.0f);
-        transform.position+= moveV.normalized * moveSpeed * Time.deltaTime;
-        transform.Rotate(0.0f, 0.0f, Vector2.Angle(new Vector2 (0.0f, 1.0f), new Vector2 (moveV.x, moveV.y)), Space.Self);
+    void Movimiento()
+    {
+        if (joystick.Horizontal != 0 || joystick.Vertical != 0)
+        {
+            Vector3 moveV = new Vector3(joystick.Horizontal, joystick.Vertical, 0.0f);
+            transform.position += moveV.normalized * moveSpeed * Time.deltaTime;
+            giro = Vector2.Angle(new Vector2(0.0f, 1.0f), new Vector2(moveV.x, moveV.y));
+            if (joystick.Horizontal >= 0)
+                giro = -giro;
+            transform.eulerAngles = new Vector3(0.0f, 0.0f, giro);
+        }
+        Debug.Log(transform.eulerAngles);
     }
 
     // metodo propio
@@ -75,7 +83,7 @@ public class Player : MonoBehaviour
 
         if (shooter != null) {
 
-            shooter.isFiring = value.isPressed;
+            shooter.isFiring = true;
 
         }
 
