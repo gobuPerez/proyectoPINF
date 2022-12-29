@@ -54,6 +54,11 @@ public class Player : MonoBehaviour
         return _direction;
     }
 
+    public Vector3 getPosition()
+    { 
+        return new Vector3(transform.position.x, transform.position.y, 0);
+    }
+
     // metodo propio
     void Movimiento() {
         
