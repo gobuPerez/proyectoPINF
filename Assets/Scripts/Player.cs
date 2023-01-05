@@ -39,7 +39,7 @@ public class Player : MonoBehaviour
 
     }
 
-    // metodo propio
+    // metodo propio https://youtu.be/Zcb8yPEItwA?t=33 
     void Movimiento() {
         
         Vector2 delta = rawInput * moveSpeed * Time.deltaTime; // con deltaTime conseguimos que el movimiento sea independiente de los fps
@@ -56,7 +56,7 @@ public class Player : MonoBehaviour
 
     }
 
-    // metodo propio
+    // metodo propio https://youtu.be/Zcb8yPEItwA?t=33 
     void InicializarLimites() {
 
         Camera mainCamera = Camera.main; // Camera.main es la camara principal del juego
