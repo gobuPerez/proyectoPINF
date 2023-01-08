@@ -17,8 +17,9 @@ public class Player : MonoBehaviour
     [SerializeField] float paddingRight;
     [SerializeField] float paddingTop;
     [SerializeField] float paddingBottom;
-
+    [SerializeField] Joystick joystick;
     Shooter shooter;
+    float giro;
 
     void Awake() {
         
@@ -40,20 +41,18 @@ public class Player : MonoBehaviour
     }
 
     // metodo propio
-    void Movimiento() {
-        
-        Vector2 delta = rawInput * moveSpeed * Time.deltaTime; // con deltaTime conseguimos que el movimiento sea independiente de los fps
-
-        Vector2 nuevaPosicion = new Vector2();
-
-        // Nos aseguramos que el jugador no se mueva fuera de la pantalla
-        // Clamp asegura que el primer valor dado este en el intervalo formado por los dos siguientes
-        // Añadimos paddings para que medio jugador no se salga de la pantalla
-        nuevaPosicion.x = Mathf.Clamp(transform.position.x + delta.x, limiteInferior.x + paddingLeft, limiteSuperior.x - paddingRight);
-        nuevaPosicion.y = Mathf.Clamp(transform.position.y + delta.y, limiteInferior.y + paddingBottom, limiteSuperior.y - paddingTop);
-
-        transform.position = nuevaPosicion;
-
+    void Movimiento()
+    {
+        if (joystick.Horizontal != 0 || joystick.Vertical != 0)
+        {
+            Vector3 moveV = new Vector3(joystick.Horizontal, joystick.Vertical, 0.0f);
+            transform.position += moveV.normalized * moveSpeed * Time.deltaTime;
+            giro = Vector2.Angle(new Vector2(0.0f, 1.0f), new Vector2(moveV.x, moveV.y));
+            if (joystick.Horizontal >= 0)
+                giro = -giro;
+            transform.eulerAngles = new Vector3(0.0f, 0.0f, giro);
+        }
+        Debug.Log(transform.eulerAngles);
     }
 
     // metodo propio
@@ -84,7 +83,7 @@ public class Player : MonoBehaviour
 
         if (shooter != null) {
 
-            shooter.isFiring = value.isPressed;
+            shooter.isFiring = true;
 
         }
 
