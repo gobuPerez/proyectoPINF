@@ -12,6 +12,7 @@ public class Shooter : MonoBehaviour
     [SerializeField] float baseFiringRate = 0.2f; // tiempo entre disparos
 
     [Header("AI (para enemigos)")]
+    [SerializeField] Player _player;
     [SerializeField] bool useAI;
     [SerializeField] float firingRateVariance = 0f;
     [SerializeField] float minimumFiringRate = 0.1f;
@@ -39,13 +40,15 @@ public class Shooter : MonoBehaviour
     }
 
     void Fire() {
-        
-        // al comenzar el juego, fireCroutime es nula
+
+        // al comenzar el juego, fireCoroutime es nula
         if (isFiring && fireCoroutine == null) {
     
             fireCoroutine = StartCoroutine(FireContinuously());
 
-        } else if (!isFiring && fireCoroutine != null) {
+        }
+        // If the user is shooting
+        else if (!isFiring && fireCoroutine != null) {
 
             StopCoroutine(fireCoroutine);
             fireCoroutine = null;
@@ -54,7 +57,7 @@ public class Shooter : MonoBehaviour
 
     }
 
-    IEnumerator FireContinuously() {
+IEnumerator FireContinuously() {
 
         while (true) {
 
@@ -68,7 +71,7 @@ public class Shooter : MonoBehaviour
 
                 if (useAI) {
 
-                    directionProjectile = transform.up * -1;
+                    directionProjectile = transform.up;
 
                 } else {
 

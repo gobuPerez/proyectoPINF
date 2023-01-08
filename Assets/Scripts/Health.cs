@@ -55,7 +55,19 @@ public class Health : MonoBehaviour
 
             scoreKeeper.modifyScore(score);
 
-        } else {
+        } 
+        else if (isPlayer) {
+            if (scoreKeeper.getScore() > UnityEngine.PlayerPrefs.GetInt("Player High Score", 0)) {
+                PlayerPrefs.SetInt("Player High Score", scoreKeeper.getScore());
+                print("New High Score: " + scoreKeeper.getScore());
+            }
+            else if (UnityEngine.PlayerPrefs.GetInt("Player High Score") == 0) {
+                PlayerPrefs.SetInt("Player High Score", scoreKeeper.getScore());
+                print("New High Score: " + scoreKeeper.getScore());
+            }
+        }
+        else
+        {
 
             levelManager.LoadGameOver();
 
