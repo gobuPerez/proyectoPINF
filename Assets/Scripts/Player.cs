@@ -24,6 +24,7 @@ public class Player : MonoBehaviour
     void Awake() {
         
         shooter = GetComponent<Shooter>();
+        shooter.isFiring = true;
 
     }
 

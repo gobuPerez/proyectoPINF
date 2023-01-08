@@ -16,7 +16,7 @@ public class Shooter : MonoBehaviour
     [SerializeField] float firingRateVariance = 0f;
     [SerializeField] float minimumFiringRate = 0.1f;
 
-    [HideInInspector] public bool isFiring;
+     public bool isFiring;
 
     Coroutine fireCoroutine;
 
