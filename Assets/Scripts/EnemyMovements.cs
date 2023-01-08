@@ -5,9 +5,9 @@ using UnityEngine;
 public class EnemyMovements : MonoBehaviour
 {
 
-    public Transform _player;
     public float moveSpeed = 5f;
     private Rigidbody2D rb;
+    private GameObject _player;
     private Vector2 movement;
 
     void Start()
@@ -15,11 +15,16 @@ public class EnemyMovements : MonoBehaviour
         rb = this.GetComponent<Rigidbody2D>();
     }
 
+    void Awake()
+    {
+        _player = GameObject.Find("Player");
+    }
+
     // Update is called once per frame
     void Update()
     {
-        Vector3 direction = _player.position - transform.position;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        Vector3 direction = _player.transform.position - transform.position;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + -90f;
         rb.rotation = angle;
         direction.Normalize();
         movement = direction;

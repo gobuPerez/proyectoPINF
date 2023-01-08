@@ -57,9 +57,10 @@ public class Shooter : MonoBehaviour
 
     }
 
-    IEnumerator FireContinuously() {
+IEnumerator FireContinuously() {
 
         while (true) {
+
             GameObject instance = Instantiate(projectilePrefab, transform.position, transform.rotation);
 
             Rigidbody2D rb = instance.GetComponent<Rigidbody2D>();
@@ -70,13 +71,11 @@ public class Shooter : MonoBehaviour
 
                 if (useAI) {
 
-                    directionProjectile = transform.up * -1;
+                    directionProjectile = transform.up;
 
                 } else {
-                    if (_player.getDirection().x != 0)
-                        directionProjectile = transform.up * _player.getDirection().x;
-                    else
-                        directionProjectile = transform.up * _player.getDirection().y;
+
+                    directionProjectile = transform.up;
                 }
 
                 rb.velocity = directionProjectile * projectileSpeed;
