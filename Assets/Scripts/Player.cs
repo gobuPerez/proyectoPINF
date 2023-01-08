@@ -52,7 +52,6 @@ public class Player : MonoBehaviour
                 giro = -giro;
             transform.eulerAngles = new Vector3(0.0f, 0.0f, giro);
         }
-        Debug.Log(transform.eulerAngles);
     }
 
     // metodo propio
