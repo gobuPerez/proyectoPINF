@@ -66,14 +66,7 @@ public class Shooter : MonoBehaviour
 
                 Vector2 directionProjectile;
 
-                if (useAI) {
-
-                    directionProjectile = transform.up * -1;
-
-                } else {
-
-                    directionProjectile = transform.up;
-                }
+                directionProjectile = transform.up;
 
                 rb.velocity = directionProjectile * projectileSpeed;
 

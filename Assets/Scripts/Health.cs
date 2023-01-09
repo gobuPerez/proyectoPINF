@@ -22,12 +22,18 @@ public class Health : MonoBehaviour
         
         // Si el objeto con el que impactamos no tiene un componente DamageDealer, damageDealer = null;
         DamageDealer damageDealer = other.GetComponent<DamageDealer>();
+        HealthDealer healthdealer = other.GetComponent<HealthDealer>();
 
         if (damageDealer != null) {
             
             takeDamage(damageDealer.getDamage());
 
         } 
+
+        if (healthdealer != null) {
+
+            health = 50;
+        }
     
     }
 

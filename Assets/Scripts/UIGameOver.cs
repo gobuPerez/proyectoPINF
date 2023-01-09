@@ -17,7 +17,7 @@ public class UIGameOver : MonoBehaviour
 
     void Start() {
 
-        scoreText.text = "Tu puntuacion: " + scoreKeeper.getScore();
+        scoreText.text = scoreKeeper.getScore() + " puntos!";
         
     }
 

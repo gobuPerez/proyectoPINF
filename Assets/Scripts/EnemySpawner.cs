@@ -33,8 +33,8 @@ public class EnemySpawner : MonoBehaviour
             
                 // Quaternion.identity indica que el objeto no tiene rotacion
                 for (int j = 0; j < currentWave.getEnemyCount(); j++)  {
-                    
-                    Instantiate(currentWave.getEnemyPrefab(j), currentWave.getStartingWaypoint().position, Quaternion.identity, transform);
+                                                                                                            //Obtiene la rotacion del que instacia
+                    Instantiate(currentWave.getEnemyPrefab(j), currentWave.getStartingWaypoint().position, transform.rotation);
 
                     yield return new WaitForSeconds(currentWave.getRandomSpawnTime());
 
