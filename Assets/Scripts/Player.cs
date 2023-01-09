@@ -47,9 +47,9 @@ public class Player : MonoBehaviour
         if (joystick.Horizontal != 0 || joystick.Vertical != 0)
         {
             
-            Vector3 moveV = new Vector3(joystick.Horizontal, joystick.Vertical, 0.0f);
+            Vector3 moveV = new Vector3(joystick.Horizontal, joystick.Vertical, 0.0f); 
             
-            transform.position += moveV.normalized * moveSpeed * Time.deltaTime;
+            transform.position += moveV.normalized * moveSpeed * Time.deltaTime; // con deltaTime conseguimos que el movimiento sea independiente de los fps
             
             giro = Vector2.Angle(new Vector2(0.0f, 1.0f), new Vector2(moveV.x, moveV.y));
             
@@ -66,7 +66,8 @@ public class Player : MonoBehaviour
 
         Camera mainCamera = Camera.main; // Camera.main es la camara principal del juego
 
-        /* El viewport es lo que ve la camara, lo que muestra del juego, y siempre tiene tamaño 1x1
+        /* 
+            El viewport es lo que ve la camara, lo que muestra del juego, y siempre tiene tamaño 1x1
             Para obtener el valor de las coordenadas de la camara en el mundo del juego, usamos el metodo ViewportToWorldPoint 
         */        
 
