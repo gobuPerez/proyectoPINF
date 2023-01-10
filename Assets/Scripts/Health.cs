@@ -32,6 +32,7 @@ public class Health : MonoBehaviour
         if (damageDealer != null) {
             
             takeDamage(damageDealer.getDamage());
+            Debug.Log("1");
 
         } 
 
