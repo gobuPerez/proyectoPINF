@@ -67,7 +67,7 @@ public class Health : MonoBehaviour
 
         if (!isPlayer)
         { scoreKeeper.modifyScore(score);
-            if(!shooter.useAI && shooter != null && isBuff)
+            if(shooter != null && !shooter.useAI && isBuff)
             shooter.PowerUp();
         }
 
