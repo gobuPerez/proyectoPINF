@@ -4,5 +4,11 @@ using UnityEngine;
 
 public class FixedJoystick : Joystick
 {
-
+    public bool active()
+    {
+        if (Horizontal == 0 && Vertical == 0)
+            return true;
+        else
+            return false;
+    }
 }

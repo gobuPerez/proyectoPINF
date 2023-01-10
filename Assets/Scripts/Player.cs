@@ -17,14 +17,15 @@ public class Player : MonoBehaviour
     [SerializeField] float paddingRight;
     [SerializeField] float paddingTop;
     [SerializeField] float paddingBottom;
-    [SerializeField] Joystick joystick;
+    [SerializeField] Joystick joystick1;
+    public FixedJoystick joystick2;
+    Vector3 moveV;
     Shooter shooter;
     float giro;
 
     void Awake() {
         
         shooter = GetComponent<Shooter>();
-        shooter.isFiring = true;
 
     }
 
@@ -44,21 +45,25 @@ public class Player : MonoBehaviour
     // metodo propio
     void Movimiento()
     {
-        if (joystick.Horizontal != 0 || joystick.Vertical != 0)
+        if (joystick1.Horizontal != 0 || joystick1.Vertical != 0)
         {
-            
-            Vector3 moveV = new Vector3(joystick.Horizontal, joystick.Vertical, 0.0f); 
+
+            moveV = new Vector3(joystick1.Horizontal, joystick1.Vertical, 0.0f); 
             
             transform.position += moveV.normalized * moveSpeed * Time.deltaTime; // con deltaTime conseguimos que el movimiento sea independiente de los fps
-            
-            giro = Vector2.Angle(new Vector2(0.0f, 1.0f), new Vector2(moveV.x, moveV.y));
-            
-            if (joystick.Horizontal >= 0) giro = -giro;
 
-            transform.eulerAngles = new Vector3(0.0f, 0.0f, giro);
 
         }
-        
+        if (joystick2.Horizontal != 0 || joystick2.Vertical != 0)
+        {
+            giro = Vector2.Angle(new Vector2(0.0f, 1.0f), new Vector2(joystick2.Horizontal, joystick2.Vertical));
+
+            if (joystick2.Horizontal >= 0) giro = -giro;
+
+            transform.eulerAngles = new Vector3(0.0f, 0.0f, giro);
+        }
+
+
     }
 
     // metodo propio

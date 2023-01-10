@@ -9,33 +9,50 @@ public class Shooter : MonoBehaviour
     [SerializeField] GameObject projectilePrefab;
     [SerializeField] float projectileSpeed = 10f;
     [SerializeField] float projectileLifetime = 5f;
-    [SerializeField] float baseFiringRate = 0.2f; // tiempo entre disparos
+    public float baseFiringRate = 0.2f; // tiempo entre disparos
 
     [Header("AI (para enemigos)")]
-    [SerializeField] bool useAI;
+    public bool useAI;
     [SerializeField] float firingRateVariance = 0f;
     [SerializeField] float minimumFiringRate = 0.1f;
 
     [HideInInspector] public bool isFiring;
+    Player player;
+    FixedJoystick joy;
 
     Coroutine fireCoroutine;
 
     // Start is called before the first frame update
     void Start()
-    {   
+    {
         // si el objeto que tiene el script es un enemigo, dispara de forma automatica
-        if (useAI) {
+        if (useAI)
+        {
 
             isFiring = true;
 
-        } 
+        }
+        else
+        { 
+            player = GetComponent<Player>();
+            joy = player.joystick2;
+        }
 
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (joy != null)
+        {
+            isFiring = !joy.active();
+        }
         Fire();   
+    }
+
+    public void PowerUp()
+    {
+        baseFiringRate *= 0.5f;
     }
 
     void Fire() {

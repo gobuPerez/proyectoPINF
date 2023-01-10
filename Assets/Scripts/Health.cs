@@ -4,17 +4,21 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-    [SerializeField] int health;
+    [SerializeField] int MaxHealth;
+    int health;
     [SerializeField] bool isPlayer;
+    [SerializeField] bool isBuff;
     [SerializeField] int score = 50;
     
     ScoreKeeper scoreKeeper;
     LevelManager levelManager;
+    Shooter shooter;
 
     void Awake() {
 
         scoreKeeper = FindObjectOfType<ScoreKeeper>();
         levelManager = FindObjectOfType<LevelManager>();
+        health = MaxHealth;
 
     }
 
@@ -23,6 +27,7 @@ public class Health : MonoBehaviour
         // Si el objeto con el que impactamos no tiene un componente DamageDealer, damageDealer = null;
         DamageDealer damageDealer = other.GetComponent<DamageDealer>();
         HealthDealer healthdealer = other.GetComponent<HealthDealer>();
+        shooter = other.GetComponent<Shooter>();
 
         if (damageDealer != null) {
             
@@ -32,7 +37,9 @@ public class Health : MonoBehaviour
 
         if (healthdealer != null) {
 
-            health = 50;
+            health += 50;
+            if (health > MaxHealth)
+                health = MaxHealth;
         }
     
     }
@@ -57,15 +64,14 @@ public class Health : MonoBehaviour
 
     void die() {
 
-        if (!isPlayer) {
-
-            scoreKeeper.modifyScore(score);
-
-        } else {
-
-            levelManager.LoadGameOver();
-
+        if (!isPlayer)
+        { scoreKeeper.modifyScore(score);
+            if(!shooter.useAI && shooter != null && isBuff)
+            shooter.PowerUp();
         }
+
+        else
+            levelManager.LoadGameOver();
 
         Destroy(gameObject);
 

@@ -197,8 +197,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8766ef7992b51834aae68ba9be44324d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 50
+  MaxHealth: 0
   isPlayer: 0
+  isBuff: 0
   score: 50
 --- !u!114 &7908763602910633132
 MonoBehaviour:
@@ -227,7 +228,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9209424020518701020}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 93281f8b7192b8a41b5d14ff358180c8, type: 3}
   m_Name: 

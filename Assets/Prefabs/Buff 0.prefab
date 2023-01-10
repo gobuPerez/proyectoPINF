@@ -98,8 +98,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8766ef7992b51834aae68ba9be44324d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
+  MaxHealth: 0
   isPlayer: 0
+  isBuff: 1
   score: 50
 --- !u!114 &8646659079414337446
 MonoBehaviour:
