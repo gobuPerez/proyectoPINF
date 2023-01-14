@@ -11,29 +11,22 @@ public class Player : MonoBehaviour
     [SerializeField] float moveSpeed = 5f;
 
     // limites de pantalla de los que no podra salirse el jugador
-    Vector2 limiteInferior;
-    Vector2 limiteSuperior;
-    [SerializeField] float paddingLeft;
-    [SerializeField] float paddingRight;
-    [SerializeField] float paddingTop;
-    [SerializeField] float paddingBottom;
-    [SerializeField] Joystick joystick1;
-    public FixedJoystick joystick2;
-    Vector3 moveV;
+    [SerializeField] FixedJoystick joystick1; //Joystick de movimiento
+    public FixedJoystick joystick2; //Joystick de apuntado. Debe ser publico para que Shooter pueda acceder a él
+    Vector3 moveV; //Vector3 para el movimieento
     Shooter shooter;
-    float giro;
+    Vector2 arriba; //Vector2 que apunta hacia arriba
+    Vector2 vgiro; // Vector2 de giro
+    float giro; // Angulo de giro del personaje
 
     void Awake() {
         
         shooter = GetComponent<Shooter>();
+        arriba.x = 0f;
+        arriba.y = 1f;
 
     }
 
-    void Start() {
-
-        InicializarLimites();
-
-    }
 
     void Update()
     {
@@ -45,41 +38,29 @@ public class Player : MonoBehaviour
     // metodo propio
     void Movimiento()
     {
-        if (joystick1.Horizontal != 0 || joystick1.Vertical != 0)
+        if (joystick1.active()) //Si el joystick de movimiento está en uso
         {
 
-            moveV = new Vector3(joystick1.Horizontal, joystick1.Vertical, 0.0f); 
+            moveV = new Vector3(joystick1.Horizontal, joystick1.Vertical, 0.0f);  //Se obtiene la dirección del movimiento
             
-            transform.position += moveV.normalized * moveSpeed * Time.deltaTime; // con deltaTime conseguimos que el movimiento sea independiente de los fps
+            transform.position += moveV.normalized * moveSpeed * Time.deltaTime; // Se añade a la poscíón el vector normalizado multiplicado por la velocidad, con deltaTime conseguimos que el movimiento sea independiente de los fps
 
 
         }
-        if (joystick2.Horizontal != 0 || joystick2.Vertical != 0)
+        if (joystick2.Horizontal != 0 || joystick2.Vertical != 0) //Si el joystick de apuntado está en uso
         {
-            giro = Vector2.Angle(new Vector2(0.0f, 1.0f), new Vector2(joystick2.Horizontal, joystick2.Vertical));
+            vgiro.x = joystick2.Horizontal;
+            vgiro.y = joystick2.Vertical;
+            giro = Vector2.Angle(arriba, vgiro); //Se obtiene el angulo entre el vector correspondiente al joystick de apuntado y la eje y
 
-            if (joystick2.Horizontal >= 0) giro = -giro;
+            if (joystick2.Horizontal >= 0) giro = -giro; //Si el vector de giro está a la derecha, el ángulo es negativo
 
-            transform.eulerAngles = new Vector3(0.0f, 0.0f, giro);
+            transform.eulerAngles = new Vector3(0.0f, 0.0f, giro); //Se aplica el angulo
         }
 
 
     }
 
-    // metodo propio
-    void InicializarLimites() {
-
-        Camera mainCamera = Camera.main; // Camera.main es la camara principal del juego
-
-        /* 
-            El viewport es lo que ve la camara, lo que muestra del juego, y siempre tiene tamaño 1x1
-            Para obtener el valor de las coordenadas de la camara en el mundo del juego, usamos el metodo ViewportToWorldPoint 
-        */        
-
-        limiteInferior = mainCamera.ViewportToWorldPoint(new Vector2(0,0));
-        limiteSuperior = mainCamera.ViewportToWorldPoint(new Vector2(1,1));
-
-    }
 
     // metodo unity
     void OnMove(InputValue value) {

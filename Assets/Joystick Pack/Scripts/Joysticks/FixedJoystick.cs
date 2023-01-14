@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class FixedJoystick : Joystick
 {
+
+    //Funcion que indica si el joystick está o no en uso
     public bool active()
     {
         if (Horizontal == 0 && Vertical == 0)
-            return true;
-        else
             return false;
+        else
+            return true;
     }
 }

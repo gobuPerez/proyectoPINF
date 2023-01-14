@@ -17,8 +17,8 @@ public class Shooter : MonoBehaviour
     [SerializeField] float minimumFiringRate = 0.1f;
 
     [HideInInspector] public bool isFiring;
-    Player player;
-    FixedJoystick joy;
+    Player player;  //Referencia al jugador
+    FixedJoystick joy; //Referencia al joystck de apuntado del jugador
 
     Coroutine fireCoroutine;
 
@@ -32,7 +32,7 @@ public class Shooter : MonoBehaviour
             isFiring = true;
 
         }
-        else
+        else ///Si es un jugado, optiene el script "Player" y su joystick de apuntado
         { 
             player = GetComponent<Player>();
             joy = player.joystick2;
@@ -43,13 +43,15 @@ public class Shooter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Si hay joystick de apuntado
         if (joy != null)
         {
-            isFiring = !joy.active();
+            isFiring = joy.active(); //Dispara si este está activo
         }
         Fire();   
     }
 
+    //Función que se encarga de dar mas velocidad a los disparos
     public void PowerUp()
     {
         baseFiringRate *= 0.5f;
