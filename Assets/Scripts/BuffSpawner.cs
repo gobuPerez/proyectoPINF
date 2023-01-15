@@ -5,41 +5,54 @@ using UnityEngine;
 public class BuffSpawner : MonoBehaviour
 {
 
-    [SerializeField] List<WaveConfigSO> waveConfigs;
-    [SerializeField] float timeBetweenWaves = 0f;
-    WaveConfigSO currentWave;
+    // el campo SerializeField nos sirve para que la variable aparezca en el inspector de Unity, y pueda ser modificada desde alli
+    [SerializeField] List<WaveConfigSO> waveConfigs; // Lista de oleadas que recibe el script
+    [SerializeField] float timeBetweenWaves = 0f; // tiempo de espera entre oleadas de buffos. Por defecto, 0
+    WaveConfigSO currentWave; // scriptableObject
     [SerializeField] bool isLooping = true;
 
-    void Start() {
+    // funcion de Unity que se llama cuando el script es usado en el juego
+    void Start()
+    {
 
-        // Tenemos que llamar al metodo de esta manera porque es una corutina
+        // llamada a la corutina que inicia las oleadas de buffos
         StartCoroutine(spawnBuffWaves());
 
     }
 
-    public WaveConfigSO getCurrentWave () {
+    // esta funcion devuelve la oleada de buffos actual
+    public WaveConfigSO getCurrentWave()
+    {
 
         return currentWave;
-        
-    }    
 
-    IEnumerator spawnBuffWaves () {
+    }
 
-        do {
+    // esta funcion selecciona una de las oleadas de buffos de la lista que recibe el script y la instancia en el juego
+    IEnumerator spawnBuffWaves()
+    {
 
-            for (int i = 0; i < waveConfigs.Count; i++) {
+        do
+        {
 
-                currentWave = waveConfigs[i];
-            
-                // Quaternion.identity indica que el objeto no tiene rotacion
-                for (int j = 0; j < currentWave.getBuffCount(); j++)  {
-                    
+            for (int i = 0; i < waveConfigs.Count; i++)
+            { // recorremos toda la lista de oleadas
+
+                currentWave = waveConfigs[i]; // una oleada de la lista
+
+                for (int j = 0; j < currentWave.getBuffCount(); j++)
+                { // recorremos los buffos que tiene la oleada
+
+                    // instanciamos un buffo en el juego
                     Instantiate(currentWave.getBuffPrefab(j), currentWave.getStartingWaypoint().position, transform.rotation);
 
-                    yield return new WaitForSeconds(currentWave.getRandomSpawnTime());
+                    yield return new WaitForSeconds(currentWave.getRandomSpawnTime()); // tiempo aleatorio entre buffos
                 }
-                yield return new WaitForSeconds(timeBetweenWaves);
+
+                yield return new WaitForSeconds(timeBetweenWaves); // tiempo aleatorio entre oleadas
+
             }
-        } while(isLooping);
+
+        } while (isLooping);
     }
 }

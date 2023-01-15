@@ -4,25 +4,25 @@ using UnityEngine;
 
 public class Shooter : MonoBehaviour
 {
-
+    // el campo SerializeField nos sirve para que la variable aparezca en el inspector de Unity, y pueda ser modificada desde alli
     [Header("General")] // esto modifica el texto que se muestra en el inspector
-    [SerializeField] GameObject projectilePrefab;
-    [SerializeField] float projectileSpeed = 10f;
-    [SerializeField] float projectileLifetime = 5f;
-    public float baseFiringRate = 0.2f; // tiempo entre disparos
+    [SerializeField] GameObject projectilePrefab; // objeto proyectil
+    [SerializeField] float projectileSpeed = 10f; // velocidad del proyectil. Por defecto, 10
+    [SerializeField] float projectileLifetime = 5f; // tiempo de vida del proyectil. Por defecto, 5
+    public float baseFiringRate = 0.2f; // tiempo entre disparos. Por defecto, 0.2
 
-    [Header("AI (para enemigos)")]
+    [Header("AI (para enemigos)")] // esto modifica el texto que se muestra en el inspector
     public bool useAI;
-    [SerializeField] float firingRateVariance = 0f;
-    [SerializeField] float minimumFiringRate = 0.1f;
+    [SerializeField] float firingRateVariance = 0f; // ratio de variacion en la cadencia de disparo
+    [SerializeField] float minimumFiringRate = 0.1f; // cadencia de disparo. Por defecto, 0.1
 
     [HideInInspector] public bool isFiring;
-    Player player;  //Referencia al jugador
-    FixedJoystick joy; //Referencia al joystck de apuntado del jugador
+    Player player;  // Referencia al jugador
+    FixedJoystick joy; // Referencia al joystck de apuntado del jugador
 
     Coroutine fireCoroutine;
 
-    // Start is called before the first frame update
+    // funcion de Unity que se llama cuando el script es usado en el juego
     void Start()
     {
         // si el objeto que tiene el script es un enemigo, dispara de forma automatica
@@ -32,39 +32,43 @@ public class Shooter : MonoBehaviour
             isFiring = true;
 
         }
-        else ///Si es un jugado, optiene el script "Player" y su joystick de apuntado
-        { 
+        else // Si es el jugador, optiene el script "Player" y su joystick de apuntado
+        {
             player = GetComponent<Player>();
             joy = player.joystick2;
         }
 
     }
 
-    // Update is called once per frame
+    // funcion de Unity que se ejecuta una vez por frame
     void Update()
     {
-        //Si hay joystick de apuntado
+        // Si hay joystick de apuntado
         if (joy != null)
         {
-            isFiring = joy.active(); //Dispara si este está activo
+            isFiring = joy.active(); // dispara si este esta activo
         }
-        Fire();   
+        Fire();
     }
 
-    //Función que se encarga de dar mas velocidad a los disparos
+    //Funcion que se encarga de dar mas velocidad a los disparos
     public void PowerUp()
     {
         baseFiringRate *= 0.5f;
     }
 
-    void Fire() {
-        
+    void Fire()
+    {
+
         // al comenzar el juego, fireCroutime es nula
-        if (isFiring && fireCoroutine == null) {
-    
+        if (isFiring && fireCoroutine == null)
+        {
+
             fireCoroutine = StartCoroutine(FireContinuously());
 
-        } else if (!isFiring && fireCoroutine != null) {
+        }
+        else if (!isFiring && fireCoroutine != null)
+        {
 
             StopCoroutine(fireCoroutine);
             fireCoroutine = null;
@@ -73,15 +77,22 @@ public class Shooter : MonoBehaviour
 
     }
 
-    IEnumerator FireContinuously() {
+    // esta funcion genera los proyectiles que disparan el jugador y los enemigos
+    IEnumerator FireContinuously()
+    {
 
-        while (true) {
+        while (true)
+        {
 
+            // Instanciamos los proyectiles en el juego
             GameObject instance = Instantiate(projectilePrefab, transform.position, transform.rotation);
 
+            // Obtenemos la componente rigidbody para modificar el movimiento de los proyectiles a nuestra eleccion
             Rigidbody2D rb = instance.GetComponent<Rigidbody2D>();
 
-            if (rb != null) {
+            // Establecemos la direccion y velocidad de los proyectiles disparados
+            if (rb != null)
+            {
 
                 Vector2 directionProjectile;
 
@@ -93,7 +104,7 @@ public class Shooter : MonoBehaviour
 
             Destroy(instance, projectileLifetime); // destruimos el proyectil despues de un tiempo maximo
 
-            float timeToNextProjectile = Random.Range(baseFiringRate - firingRateVariance, baseFiringRate + firingRateVariance);
+            float timeToNextProjectile = Random.Range(baseFiringRate - firingRateVariance, baseFiringRate + firingRateVariance); // tiempo entre disparos
 
             timeToNextProjectile = Mathf.Clamp(timeToNextProjectile, minimumFiringRate, float.MaxValue);
 

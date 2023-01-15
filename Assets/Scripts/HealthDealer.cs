@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class HealthDealer : MonoBehaviour
 {
-    public void Hit () {
+    // esta funcion destruye al objeto que tiene asignado el script
+    public void Hit()
+    {
 
         Destroy(gameObject);
     }

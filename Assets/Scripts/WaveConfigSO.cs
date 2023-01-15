@@ -2,63 +2,84 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// SCRIPTABLE OBJECT
 [CreateAssetMenu(fileName = "WaveConfig", menuName = "New Wave Config")]
-public class WaveConfigSO : ScriptableObject {
-    
-    // lista de enemigos que van a ir instanciandose durante la partida
-    [SerializeField] List<GameObject> enemysPrefabs;
-    [SerializeField] List<GameObject> buffPrefabs;
-    [SerializeField] Transform pathPrefab;
-    [SerializeField] float moveSpeed = 5f;
-    [SerializeField] float timeBetweenEnemySpawns = 1f; // 
+public class WaveConfigSO : ScriptableObject
+{
+
+    [SerializeField] List<GameObject> enemysPrefabs; // lista de enemigos que van a ir instanciandose durante la partida
+    [SerializeField] List<GameObject> buffPrefabs; // lista de buffos que van a ir instanciandose durante la partida
+    [SerializeField] Transform pathPrefab; // posicion
+    [SerializeField] float moveSpeed = 5f; // velocidad de movimiento
+    [SerializeField] float timeBetweenEnemySpawns = 1f;  // tiempo entre oleadas de enemigos
     [SerializeField] float spawnTimeVariance = 0f; // variacion que usamos para generar un numero aleatorio. Si es 0, todos los enemigos se generan en tiempos iguales
-    [SerializeField] float minimunSpawnTime = 0.2f;
+    [SerializeField] float minimunSpawnTime = 0.2f; // tiempo minimo entre oleadas
 
-    // necesitamos metodos observadores porque dentro de un ScriptableObject los atributos son privados
+    // NECESITAMOS METODOS OBSERVADORES PORQUE DENTRO DE UN SCRIPTABLEOBJECT LOS ATRIBUTOS SON PRIVADOS
 
-    public int getEnemyCount () {
+    // funcion que devuelve el numero de enemigos para instanciar
+    public int getEnemyCount()
+    {
 
         return enemysPrefabs.Count;
     }
-    public int getBuffCount () {
+
+    // funcion que devuelve el numero de buffos para instanciar
+    public int getBuffCount()
+    {
 
         return buffPrefabs.Count;
     }
 
-    public GameObject getEnemyPrefab (int index) {
+    // funcion que devuelve un enemigo concreto de la lista de enemigos
+    public GameObject getEnemyPrefab(int index)
+    {
 
         return enemysPrefabs[index];
 
     }
-    public GameObject getBuffPrefab (int index) {
+
+    // fincion que devuelve un buffo concreto de la lista de buffos
+    public GameObject getBuffPrefab(int index)
+    {
 
         return buffPrefabs[index];
     }
 
-    public Transform getStartingWaypoint () {
+    // funcion que devuelve la posicion del primer punto de la ruta que recibe el script
+    public Transform getStartingWaypoint()
+    {
 
         return pathPrefab.GetChild(0); // primer hijo del path, es decir, primer punto de la ruta
 
     }
 
-    public List<Transform> getWaypoints () {
+    // funcion que devuelve una lista de puntos que forman una ruta
+    public List<Transform> getWaypoints()
+    {
 
         List<Transform> waypoints = new List<Transform>();
 
-        foreach (Transform child in pathPrefab) {
-            
+        foreach (Transform child in pathPrefab)
+        {
+
             waypoints.Add(child);
         }
+
         return waypoints;
     }
 
-    public float GetMoveSpeed() { 
-        
-        return moveSpeed; 
-    
+    // funcion que devuelve la velocidad de movimiento del objeto que tiene asignado este script
+    public float GetMoveSpeed()
+    {
+
+        return moveSpeed;
+
     }
 
-    public float getRandomSpawnTime () {
+    // esta funcion calcula y devuelve un tiempo aleatorio entre unos limites dados
+    public float getRandomSpawnTime()
+    {
 
         float spawnTime = Random.Range(timeBetweenEnemySpawns - spawnTimeVariance, timeBetweenEnemySpawns + spawnTimeVariance);
 
